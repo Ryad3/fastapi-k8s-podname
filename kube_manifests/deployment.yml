@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-k8s-podname-deployment
+  labels:
+    app: fastapi-k8s-podname
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fastapi-k8s-podname
+  template:
+    metadata:
+      labels:
+        app: fastapi-k8s-podname
+    spec:
+      containers:
+      - name: fastapi-k8s-podname
+        image: fastapi-k8s-podname:1.0
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
